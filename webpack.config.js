@@ -1,6 +1,7 @@
 var rucksack = require('rucksack-css')
 var webpack = require('webpack')
 var path = require('path')
+var StringReplacePlugin = require("string-replace-webpack-plugin");
 
 module.exports = {
   context: path.join(__dirname, './client'),
@@ -23,8 +24,19 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.html$/,
-        loader: 'file?name=[name].[ext]'
+        test: /.html$/,
+        loader: StringReplacePlugin.replace(
+            'file?name=[name].[ext]',
+            {
+              replacements: [{
+                pattern: /v=_VERSION_/ig,
+                replacement: function (match, p1, offset, string) {
+                  var d = new Date();
+                  return "" + d.getYear() + (d.getMonth() + 1) + d.getDay() + d.getHours() + d.getMinutes();
+                }
+              }]
+            }
+        )
       },
       {
         test: /\.css$/,
@@ -62,7 +74,8 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') }
-    })
+    }),
+    new StringReplacePlugin()
   ],
   devServer: {
     contentBase: './client',
