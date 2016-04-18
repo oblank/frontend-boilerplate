@@ -57,9 +57,13 @@ module.exports = {
         exclude: /node_modules/,
         loaders: [
           'react-hot',
-          'babel-loader'
+          'babel-loader?presets[]=es2015&presets[]=stage-0&presets[]=react'
         ]
       },
+      {
+        test: /\.svg$/,
+        loader: "url-loader?limit=10000&mimetype=image/svg+xml"
+      }
     ],
   },
   resolve: {
