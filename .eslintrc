@@ -1,5 +1,9 @@
 {
-  "extends": "airbnb/base",
+  "extends": [
+    "airbnb/base",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 6,
@@ -10,11 +14,13 @@
     "mocha": true
   },
   "plugins": [
-    "mocha"
+    "mocha",
+    "react"
   ],
   "rules": {
     "indent": [2, 4],
     "comma-dangle": 0,
+    "semi": 0,
     "max-len": 0,
     "prefer-arrow-callback": 0
   }
